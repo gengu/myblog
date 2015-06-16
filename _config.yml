@@ -10,9 +10,10 @@ url: http://localhost:4000
 owner:
   name:           亘小古
   avatar:         avatar.jpg
-  bio:            "Your bio goes here. It shouldn't be super long but a good two sentences or two should suffice."
-  email:         gengugu@foxmail.com
+  bio:            "Don't ever let some body tell you you can not do something . <br> <br> 阿里巴巴 "
+  email:         gengugu@gmail.com
   # Social networking links used in footer. Update and remove as you like.
+  weibo: 2873228784
   twitter:
   facebook:
   github:
@@ -22,7 +23,7 @@ owner:
   flickr:
   tumblr:
   # google plus id, include the '+', eg +mmistakes
-  google_plus:    +yourid
+  google_plus:
 
 # Background image to be tiled on all pages
 background:
