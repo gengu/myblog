@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 关于我亘小古
+title: 关于我
 image:
   feature: abstract-5.jpg
   credit: dargadgetz
