@@ -1,3 +1,11 @@
+---
+layout: post
+title: scrapy jiandan
+description: "scrapy 基础上加工的简单分布式爬虫"
+modified: 2016-01-19
+tags: [python,scrapy,phantomjs]
+---
+
 [简单的github代码地址，此处要高亮](https://github.com/gengu/jiandan-spider)
 
 基于scrapy的搜索引擎开发 —— 煎蛋爬虫
