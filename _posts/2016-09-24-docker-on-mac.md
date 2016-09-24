@@ -1,4 +1,12 @@
-# 在MAC上进行docker开发
+---
+layout: post
+title: 在mac上搭建Docker开发环境
+description: "在MAC上进行docker开发"
+modified: 2016-09-24
+tags: [docker]
+---
+
+# 在mac上搭建Docker开发环境
 
 > 闲来无事，折腾下docker,花了一天时间看教程和文档，记录如下
 
