@@ -16,7 +16,7 @@
 
 > 1、如果你本地安装了brew，这一步请略过
 
-{% highlight shell %}  
+{% highlight bash %}  
 {% raw %}  
 	curl -LsSf http://github.com/mxcl/homebrew/tarball/master | sudo tar xvz -C/usr/local --strip 1
 {% endraw %}   
@@ -25,7 +25,7 @@
 
 > 2、安装docker-machine和docker
 
-{% highlight shell %}  
+{% highlight bash %}  
 {% raw %}  
 	 brew install docker-machine docker
 {% endraw %}   
@@ -55,7 +55,7 @@
 
     docker-machine env default
 
-    3、将本地的shell环境与虚拟机进行连接
+    3、将本地的bash环境与虚拟机进行连接
 
     eval "$(docker-machine env default)"
 
@@ -79,7 +79,7 @@
 
 > 在Dockerfile 中写入以下内容
 
-{% highlight shell %}  
+{% highlight bash %}  
 {% raw %}  
   FROM nginx
   COPY test-nginx /usr/share/nginx/html
@@ -127,4 +127,3 @@
   https://hub.docker.com/_/nginx/
 
   docker中文文档  https://yeasy.gitbooks.io/docker_practice/content/container/run.html
-  
