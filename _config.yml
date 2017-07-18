@@ -4,6 +4,10 @@ disqus_shortname: hpstrtheme
 reading_time:     true
 words_per_minute: 200
 
+webrick:
+  headers:
+    Access-Control-Allow-Origin: "*"
+
 url: http://www.genxiaogu.com
 
 # Owner/author information
@@ -26,14 +30,6 @@ owner:
   tumblr:
   # google plus id, include the '+', eg +mmistakes
   google_plus:
-
-webserver_headers:
-  "Access-Control-Allow-Origin": "*"
-  "Server": "CustomServerName"
-
-webrick:
-  headers:
-    Access-Control-Allow-Origin: "*"
 
 # Background image to be tiled on all pages
 background:
