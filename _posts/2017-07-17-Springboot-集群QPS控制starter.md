@@ -99,27 +99,30 @@ public String test(){
 
 
 > 总结及测试
-> > 我尝试把系统的QPS压测到100
+> > 我尝试把系统的QPS测到1
 
 {% highlight bash %}  
 {% raw %}
-siege -c 50 -t 1 'http://localhost:8080/test'
+我们定义每秒限制为1次
+@Limiter(route = "test", limit = 1)
+然后使用siege进行测试一分钟
+siege -c 5 -t 1 'http://localhost:8080/test'
 {% endraw %}   
 {% endhighlight %}
 
 {% highlight bash %}  
 {% raw %}
-Transactions:		        1125 hits
-Availability:		       98.00 %
-Elapsed time:		       11.80 secs
-Data transferred:	        0.01 MB
-Response time:		        0.00 secs
-Transaction rate:	       95.34 trans/sec
+Transactions:		          59 hits
+Availability:		       10.09 %
+Elapsed time:		       59.61 secs
+Data transferred:	        0.11 MB
+Response time:		        0.05 secs
+Transaction rate:	        0.99 trans/sec
 Throughput:		        0.00 MB/sec
-Concurrency:		        0.41
-Successful transactions:        1125
-Failed transactions:	          23
-Longest transaction:	        0.14
+Concurrency:		        0.05
+Successful transactions:          59
+Failed transactions:	         526
+Longest transaction:	        0.17
 Shortest transaction:	        0.00
 {% endraw %}   
 {% endhighlight %}
