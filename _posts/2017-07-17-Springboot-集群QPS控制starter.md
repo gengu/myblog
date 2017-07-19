@@ -126,3 +126,51 @@ Longest transaction:	        0.17
 Shortest transaction:	        0.00
 {% endraw %}   
 {% endhighlight %}
+
+
+## 2017-07-19 重要更新
+在第一个版本中，为了避免多线程执行过程中出现变量可见性问题，使用了synchronized同步整个function
+{% highlight java %}  
+{% raw %}
+public synchronized boolean execute() {
+    BoundValueOperations<String, String> boundValueOps = redisTemplate.boundValueOps(route);
+    if(boundValueOps.get() == null){
+        boundValueOps.set("1") ;
+        boundValueOps.expire(1000, TimeUnit.MILLISECONDS);
+        return true ;
+    }else{
+        ...
+    }
+}
+{% endraw %}   
+{% endhighlight %}
+这种处理方式能满足单机需求，如果是集群环境下，还是会出现redis的key不完全同步的问题
+而且synchronized锁住了整个方法，非常消耗资源  
+经过与朋友的商讨发现有更好的方式去解决，问题出现在
+{% highlight java %}  
+{% raw %}
+    if(boundValueOps.get() == null){
+        boundValueOps.set("1") ;
+        boundValueOps.expire(1000, TimeUnit.MILLISECONDS);
+        return true ;
+    }
+}
+{% endraw %}   
+{% endhighlight %}
+在多核环境下，先拿到值然后判断，然后插入字符串1，无法保证程序执行的原子性
+假如A线程执行完boundValueOps.get() == null，B线程已经插入了了"1"，这时候A再插入"1",就出现了bug，这是导致多核下线程不安全的主要原因
+
+### 改造
+***知道了问题产生的原因，就知道如何去解决***
+{% highlight java %}  
+{% raw %}
+if(boundValueOps.setIfAbsent("1")){
+    boundValueOps.expire(1000, TimeUnit.MILLISECONDS);
+    return true ;
+}
+{% endraw %}   
+{% endhighlight %}
+这段代码中，将判断和插入合成到一个方法中——setIfAbsent，保证这两个操作的原子性
+很好的解决了单机并发、集群并发环境下的线程安全问题
+
+该版本已经更新到1.1.0
