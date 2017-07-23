@@ -186,6 +186,8 @@ public String check3(@UserLimiter(route = "test3" , limit = 1) String user){
 {% endraw %}   
 {% endhighlight %}
 
+该版本已经更新到2.0.0
+
 
 ## TOList
 [ ] 统计每个route的拦截次数以及通过次数  
