@@ -175,8 +175,20 @@ if(boundValueOps.setIfAbsent("1")){
 
 该版本已经更新到1.1.0
 
+## 2017-07-23 重要更新
+> 在第一个版本中，我们做了针对方法的限流，但是有人对不同用户也有流量控制的需求，所以我们新增UserLimiter注解，支持参数控制流量，使用方法与Limiter类似，但是注解需要解释在参数上  
+> 例如假如user代表用户参数，我们希望单个用户每秒只能访问1次，可以使用如下方法：
+{% highlight java %}  
+{% raw %}
+public String check3(@UserLimiter(route = "test3" , limit = 1) String user){
+    return dataPermissionTest.test3() ;
+}
+{% endraw %}   
+{% endhighlight %}
+
+
 ## TOList
-[ ] 统计每个route的拦截次数以及通过次数
-[ ] 统计被拦截的IP地址信息等，预防DDOS很有用
-[ ] 现在抛异常的方案太过粗暴，可以定义接口由客户端来实现逻辑
-[ ] 新增特性针对不同用户进行进行流量控制
+[ ] 统计每个route的拦截次数以及通过次数  
+[ ] 统计被拦截的IP地址信息等，预防DDOS很有用  
+[ ] 现在抛异常的方案有点粗暴，可以定义接口由客户端来实现逻辑  
+[√] 新增特性针对不同用户进行进行流量控制
