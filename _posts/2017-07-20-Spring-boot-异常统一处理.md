@@ -106,23 +106,66 @@ public class ExceptionHandler {
 {% endhighlight %}
 
 在统一处理异常的时候，我们还可以加入特别多的元素，这就像是一个插件一样可以做很多有意义的事情，就像代码中一样，我们可以为每种异常定义一种错误处理方式    
+另外，使用Logger记录下了所有异常的堆栈   
 在某些情况下，如果我们必须得处理trycatch（例如Lambda表达式的处理中），也可以将非受检异常转化为受检异常然后抛出   
-在一般的代码开发中，我们有许多事情都可以变得简单，例如参数校验
+在业务代码中，许多事情都将变得简单，例如参数校验
 {% highlight java %}  
 {% raw %}
-@RequestMapping("/listHeatTrendDay")
-public ResultBOBean<List<BO>> listHeatTrendDay(@RequestParam("start") String start, @RequestParam("end") String end) {
+@RequestMapping("/method")
+public ResultBOBean<List<BO>> method(@RequestParam("start") String start, @RequestParam("end") String end) {
     ...xxx...
     Preconditions.checkArgument(DateUtil.checkDay(start), "参数start非法");
     Preconditions.checkArgument(DateUtil.checkDay(end), "参数end非法");
+    Assert.that(false , "参数end非法");
     ...xxx...
 }
 {% endraw %}   
 {% endhighlight %}
-以上代码中，每个参数的校验只需要一行代码，Preconditions是Guava的一个类，它的原理就是遇到错误抛出一个异常，然后POExceptionHandler会自动来处理这种异常。
+以上代码中，每个参数的校验只需要一行代码，Preconditions是Guava的一个类，它的原理就是遇到错误抛出一个异常，然后POExceptionHandler会自动来处理这种异常。使用Assert也是一样的原理。  
+
+### 特殊异常的处理
+所谓特殊异常，指的是无法通过用户自定义AOP来处理的错误逻辑，例如：客户端访问了不存在的router，又或者客户端没有传必传参数，在Spring-boot中，遇到以上的异常会转发到/error路由。
+
+我们没有办法改变Spring-boot的这种逻辑，但是可以改写/error的返回结果，通过继承AbstractErrorController类可以实现这个逻辑
+{% highlight java %}  
+{% raw %}
+/**
+ * @author genxiaogu
+ */
+@Controller
+public class CustomizedErrorController extends AbstractErrorController {
+
+    public CustomizedErrorController(ErrorAttributes errorAttributes) {
+        super(errorAttributes);
+    }
+
+    @RequestMapping
+    @ResponseBody
+    @ExceptionHandler(NoHandlerFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Object notFound(HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> errorAttributes = getErrorAttributes(request, true);
+        HttpStatus httpStatus = getStatus(request);
+        result.putAll(errorAttributes);
+        result.put("status", httpStatus.value());
+        result.put("isError" , true) ;
+        result.put("trace",null) ;
+        return result;
+    }
+
+    @Override
+    public String getErrorPath() {
+        return "/error";
+    }
+}
+{% endraw %}   
+{% endhighlight %}
+
+同理，对少参数的异常也可以用这种方法进行处理
 
 ## 总结
-通过这种方式，可以大大减少系统维护的成本，并且整个实现方式非常优雅。
+通过这种方式，可以很大程度的减少系统维护的成本，使系统变得更加健壮可靠，并且整个实现方式非常优雅。
 
 
 
