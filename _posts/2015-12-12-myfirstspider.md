@@ -134,7 +134,7 @@ class MyfirstspiderPipeline(object):
 
 
 ## 结果如图
-![Mou icon](http://fangzhou.oss-cn-hangzhou.aliyuncs.com/myblog/maichedaren.png?Expires=1485895377&OSSAccessKeyId=NSC5enG6XrAfvnZO&Signature=EXK5tpboDfAwm%2BEa7T3/m3LnXVU%3D)
+![Mou icon](http://fangzhou.oss-cn-hangzhou.aliyuncs.com/myblog/maichedaren.png?Expires=1485895377=&Signature=EXK5tpboDfAwm%2BEa7T3/m3LnXVU%3D)
 
 	
 	
